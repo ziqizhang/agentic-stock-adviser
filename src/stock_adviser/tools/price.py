@@ -28,3 +28,6 @@ def get_stock_price(symbol: str) -> StockPrice | ToolError:
         )
     except Exception as e:
         return ToolError(error=f"Failed to fetch price for '{symbol}': {e}")
+
+
+get_stock_price.metadata = {"status": "Fetching the latest price..."}

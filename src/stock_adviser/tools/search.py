@@ -27,3 +27,6 @@ def search_ticker(query: str) -> TickerSearchResult | ToolError:
         return TickerSearchResult(query=query, matches=matches)
     except Exception as e:
         return ToolError(error=f"Failed to search for '{query}': {e}")
+
+
+search_ticker.metadata = {"status": "Looking up the ticker..."}

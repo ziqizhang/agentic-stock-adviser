@@ -29,3 +29,6 @@ def get_fundamentals(symbol: str) -> Fundamentals | ToolError:
         )
     except Exception as e:
         return ToolError(error=f"Failed to fetch fundamentals for '{symbol}': {e}")
+
+
+get_fundamentals.metadata = {"status": "Pulling financial data..."}
