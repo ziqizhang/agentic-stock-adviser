@@ -736,60 +736,60 @@ files = [
 
 [[package]]
 name = "langchain-core"
-version = "0.3.83"
+version = "1.2.23"
 description = "Building applications with LLMs through composability"
 optional = false
-python-versions = "<4.0.0,>=3.9.0"
+python-versions = "<4.0.0,>=3.10.0"
 groups = ["main"]
 files = [
-    {file = "langchain_core-0.3.83-py3-none-any.whl", hash = "sha256:8c92506f8b53fc1958b1c07447f58c5783eb8833dd3cb6dc75607c80891ab1ae"},
-    {file = "langchain_core-0.3.83.tar.gz", hash = "sha256:a0a4c7b6ea1c446d3b432116f405dc2afa1fe7891c44140d3d5acca221909415"},
+    {file = "langchain_core-1.2.23-py3-none-any.whl", hash = "sha256:70866dfc5275b7840ce272ff70f0ff216c8666ab25dc1b41964a4ef58c02a3ff"},
+    {file = "langchain_core-1.2.23.tar.gz", hash = "sha256:fdec64f90cfea25317e88d9803c44684af1f4e30dec4e58320dd7393bb0f0785"},
 ]
 
 [package.dependencies]
 jsonpatch = ">=1.33.0,<2.0.0"
 langsmith = ">=0.3.45,<1.0.0"
-packaging = ">=23.2.0,<26.0.0"
+packaging = ">=23.2.0"
 pydantic = ">=2.7.4,<3.0.0"
-PyYAML = ">=5.3.0,<7.0.0"
+pyyaml = ">=5.3.0,<7.0.0"
 tenacity = ">=8.1.0,<8.4.0 || >8.4.0,<10.0.0"
 typing-extensions = ">=4.7.0,<5.0.0"
 uuid-utils = ">=0.12.0,<1.0"
 
 [[package]]
 name = "langchain-openai"
-version = "0.3.35"
+version = "1.1.12"
 description = "An integration package connecting OpenAI and LangChain"
 optional = false
-python-versions = "<4.0.0,>=3.9.0"
+python-versions = "<4.0.0,>=3.10.0"
 groups = ["main"]
 files = [
-    {file = "langchain_openai-0.3.35-py3-none-any.whl", hash = "sha256:76d5707e6e81fd461d33964ad618bd326cb661a1975cef7c1cb0703576bdada5"},
-    {file = "langchain_openai-0.3.35.tar.gz", hash = "sha256:fa985fd041c3809da256a040c98e8a43e91c6d165b96dcfeb770d8bd457bf76f"},
+    {file = "langchain_openai-1.1.12-py3-none-any.whl", hash = "sha256:da71ca3f2d18c16f7a2443cc306aa195ad2a07054335ac9b0626dcae02b6a0c5"},
+    {file = "langchain_openai-1.1.12.tar.gz", hash = "sha256:ccf5ef02c896f6807b4d0e51aaf678a72ce81ae41201cae8d65e11eeff9ecb79"},
 ]
 
 [package.dependencies]
-langchain-core = ">=0.3.78,<1.0.0"
-openai = ">=1.104.2,<3.0.0"
+langchain-core = ">=1.2.21,<2.0.0"
+openai = ">=2.26.0,<3.0.0"
 tiktoken = ">=0.7.0,<1.0.0"
 
 [[package]]
 name = "langgraph"
-version = "0.4.10"
+version = "1.1.3"
 description = "Building stateful, multi-actor applications with LLMs"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "langgraph-0.4.10-py3-none-any.whl", hash = "sha256:fa1257afba55778f222981362c1221fb0cc166467a543c13729eb104b9becbc9"},
-    {file = "langgraph-0.4.10.tar.gz", hash = "sha256:391dadf5051bab212d711da62b10ae6c97bbc912a9f812b4b27e92a934a401c6"},
+    {file = "langgraph-1.1.3-py3-none-any.whl", hash = "sha256:57cd6964ebab41cbd211f222293a2352404e55f8b2312cecde05e8753739b546"},
+    {file = "langgraph-1.1.3.tar.gz", hash = "sha256:ee496c297a9c93b38d8560be15cbb918110f49077d83abd14976cb13ac3b3370"},
 ]
 
 [package.dependencies]
 langchain-core = ">=0.1"
-langgraph-checkpoint = ">=2.0.26"
-langgraph-prebuilt = ">=0.2.0"
-langgraph-sdk = ">=0.1.42"
+langgraph-checkpoint = ">=2.1.0,<5.0.0"
+langgraph-prebuilt = ">=1.0.8,<1.1.0"
+langgraph-sdk = ">=0.3.0,<0.4.0"
 pydantic = ">=2.7.4"
 xxhash = ">=3.5.0"
 
@@ -811,19 +811,19 @@ ormsgpack = ">=1.12.0"
 
 [[package]]
 name = "langgraph-prebuilt"
-version = "1.0.1"
+version = "1.0.8"
 description = "Library with high-level APIs for creating and executing LangGraph agents and tools."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "langgraph_prebuilt-1.0.1-py3-none-any.whl", hash = "sha256:8c02e023538f7ef6ad5ed76219ba1ab4f6de0e31b749e4d278f57a8a95eec9f7"},
-    {file = "langgraph_prebuilt-1.0.1.tar.gz", hash = "sha256:ecbfb9024d9d7ed9652dde24eef894650aaab96bf79228e862c503e2a060b469"},
+    {file = "langgraph_prebuilt-1.0.8-py3-none-any.whl", hash = "sha256:d16a731e591ba4470f3e313a319c7eee7dbc40895bcf15c821f985a3522a7ce0"},
+    {file = "langgraph_prebuilt-1.0.8.tar.gz", hash = "sha256:0cd3cf5473ced8a6cd687cc5294e08d3de57529d8dd14fdc6ae4899549efcf69"},
 ]
 
 [package.dependencies]
-langchain-core = ">=0.3.67"
-langgraph-checkpoint = ">=2.1.0,<4.0.0"
+langchain-core = ">=1.0.0"
+langgraph-checkpoint = ">=2.1.0,<5.0.0"
 
 [[package]]
 name = "langgraph-sdk"
@@ -843,33 +843,36 @@ orjson = ">=3.11.5"
 
 [[package]]
 name = "langsmith"
-version = "0.3.45"
-description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
+version = "0.7.22"
+description = "Client library to connect to the LangSmith Observability and Evaluation Platform."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "langsmith-0.3.45-py3-none-any.whl", hash = "sha256:5b55f0518601fa65f3bb6b1a3100379a96aa7b3ed5e9380581615ba9c65ed8ed"},
-    {file = "langsmith-0.3.45.tar.gz", hash = "sha256:1df3c6820c73ed210b2c7bc5cdb7bfa19ddc9126cd03fdf0da54e2e171e6094d"},
+    {file = "langsmith-0.7.22-py3-none-any.whl", hash = "sha256:6e9d5148314d74e86748cb9d3898632cad0320c9323d95f70f969e5bc078eee4"},
+    {file = "langsmith-0.7.22.tar.gz", hash = "sha256:35bfe795d648b069958280760564632fd28ebc9921c04f3e209c0db6a6c7dc04"},
 ]
 
 [package.dependencies]
 httpx = ">=0.23.0,<1"
-orjson = {version = ">=3.9.14,<4.0.0", markers = "platform_python_implementation != \"PyPy\""}
+orjson = {version = ">=3.9.14", markers = "platform_python_implementation != \"PyPy\""}
 packaging = ">=23.2"
-pydantic = [
-    {version = ">=1,<3", markers = "python_full_version < \"3.12.4\""},
-    {version = ">=2.7.4,<3.0.0", markers = "python_full_version >= \"3.12.4\""},
-]
-requests = ">=2,<3"
-requests-toolbelt = ">=1.0.0,<2.0.0"
-zstandard = ">=0.23.0,<0.24.0"
+pydantic = ">=2,<3"
+requests = ">=2.0.0"
+requests-toolbelt = ">=1.0.0"
+uuid-utils = ">=0.12.0,<1.0"
+xxhash = ">=3.0.0"
+zstandard = ">=0.23.0"
 
 [package.extras]
-langsmith-pyo3 = ["langsmith-pyo3 (>=0.1.0rc2,<0.2.0)"]
-openai-agents = ["openai-agents (>=0.0.3,<0.1)"]
-otel = ["opentelemetry-api (>=1.30.0,<2.0.0)", "opentelemetry-exporter-otlp-proto-http (>=1.30.0,<2.0.0)", "opentelemetry-sdk (>=1.30.0,<2.0.0)"]
-pytest = ["pytest (>=7.0.0)", "rich (>=13.9.4,<14.0.0)"]
+claude-agent-sdk = ["claude-agent-sdk (>=0.1.0) ; python_version >= \"3.10\""]
+google-adk = ["google-adk (>=1.0.0)", "wrapt (>=1.16.0)"]
+langsmith-pyo3 = ["langsmith-pyo3 (>=0.1.0rc2)"]
+openai-agents = ["openai-agents (>=0.0.3)"]
+otel = ["opentelemetry-api (>=1.30.0)", "opentelemetry-exporter-otlp-proto-http (>=1.30.0)", "opentelemetry-sdk (>=1.30.0)"]
+pytest = ["pytest (>=7.0.0)", "rich (>=13.9.4)", "vcrpy (>=7.0.0)"]
+sandbox = ["websockets (>=15.0)"]
+vcr = ["vcrpy (>=7.0.0)"]
 
 [[package]]
 name = "librt"
@@ -2709,4 +2712,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "5eaba088afa399cb3013b581e41bfd3a2bdab93d391b99b6c01b2ea7c132ef20"
+content-hash = "51eba425b9863e2555db792139b6e186fad471e3a4b6b48220a444771429de49"
