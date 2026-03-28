@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agentic-stock-adviser"
-version = "0.1.0"
+version = "1.0.0"
 description = "Agentic stock analysis system built on LangGraph with OpenAI"
 authors = ["Ziqi Zhang"]
 readme = "README.md"
