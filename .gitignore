@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Claude-specific
+CLAUDE.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (semantic-release)
+node_modules/
+
+# Data
+*.db
+*.sqlite3

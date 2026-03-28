@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - ".gitignore"
+      - "LICENSE"
+
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - ".gitignore"
+      - "LICENSE"
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            .venv
+          key: ${{ runner.os }}-poetry-v1-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install Poetry
+        run: |
+          pipx install poetry>=2.0.0
+          poetry config virtualenvs.in-project true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --with dev
+
+      - name: Lint (ruff)
+        run: |
+          poetry run ruff check src/ tests/
+          poetry run ruff format --check src/ tests/
+
+      - name: Unit tests
+        run: |
+          poetry run pytest tests/ \
+            -v \
+            --tb=short \
+            -q \
+            --maxfail=5
+        timeout-minutes: 3
+
+      - name: Type check
+        run: poetry run mypy src/stock_adviser/ || true

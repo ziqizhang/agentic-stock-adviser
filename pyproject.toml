@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "agentic-stock-adviser"
+version = "0.1.0"
+description = "Agentic stock analysis system built on LangGraph with OpenAI"
+authors = ["Ziqi Zhang"]
+readme = "README.md"
+packages = [
+    { include = "stock_adviser", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langgraph = "^0.4"
+langchain-openai = "^0.3"
+langchain-core = "^0.3"
+langsmith = "^0.3"
+yfinance = ">=0.2.36"
+pandas = "^2.0"
+python-dotenv = "^1.0"
+pydantic = "^2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+pytest-asyncio = "^1.2"
+pre-commit = "^4.1"
+ruff = "^0.15"
+mypy = "^1.19"
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests/"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "F401",   # unused imports
+    "F541",   # f-string without placeholders
+    "F841",   # unused local variables
+    "E401",   # multiple imports on one line
+    "E711",   # comparison to None
+    "E712",   # comparison to True/False
+    "E722",   # bare except
+    "I",      # isort
+]
+ignore = [
+    "E501",   # line too long — black handles formatting
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["stock_adviser"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
