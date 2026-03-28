@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ziqizhang/agentic-stock-adviser/compare/v1.1.0...v1.2.0) (2026-03-28)
+
+
+### Features
+
+* add streaming output with human-readable tool status ([a1853fa](https://github.com/ziqizhang/agentic-stock-adviser/commit/a1853fab9bd5ebf782c734db0783444b18805688))
+
 # [1.1.0](https://github.com/ziqizhang/agentic-stock-adviser/compare/v1.0.0...v1.1.0) (2026-03-28)
 
 
