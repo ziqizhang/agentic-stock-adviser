@@ -24,7 +24,15 @@ Always use `poetry run <command>`. Never use global Python or assume `.venv`.
 - `state.py` — AgentState (messages-only, compatible with future memory layers)
 - `streaming.py` — Stream event classification (TokenEvent, ToolStartEvent, etc.). Reusable across REPL, FastAPI, WebSocket consumers.
 - `__main__.py` — Terminal REPL consumer (renders stream events to stdout)
+- `server.py` — FastAPI server entry point (`make serve`)
 - `tools/` — yfinance tools, each with `@tool` decorator and `.metadata["status"]` for UI display
+- `api/app.py` — FastAPI app factory (create_app), CORS, session store
+- `api/session.py` — In-memory session store (conversation history per session_id)
+- `api/routes/health.py` — GET /health
+- `api/routes/chat.py` — POST /chat (accept message, trigger agent in background)
+- `api/routes/stream.py` — GET /stream/{session_id} (SSE endpoint)
+- `events/types.py` — SSE event dataclasses (Token, ChartUpdate, TableUpdate, etc.)
+- `events/router.py` — Maps tool results to dashboard SSE events
 
 ## Development Commands
 
@@ -33,6 +41,7 @@ make check      # lint + test + typecheck — run after every change
 make lint       # pre-commit (ruff format + ruff lint + file checks)
 make test       # unit tests
 make typecheck  # mypy (non-blocking until codebase stabilises)
+make serve      # run FastAPI server (port 8000, auto-reload)
 ```
 
 ## Conventions
@@ -48,3 +57,4 @@ make typecheck  # mypy (non-blocking until codebase stabilises)
 
 - Learning roadmap & architecture: `docs/00-ROADMAP.md`
 - Pillar deep-dives: `docs/01-PILLAR-1-FOUNDATION.md` through `docs/08-PILLAR-8-PRODUCTION.md`
+- Dashboard design spec: `docs/superpowers/specs/2026-03-29-dashboard-design.md`
