@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/ziqizhang/agentic-stock-adviser/compare/v1.2.0...v1.3.0) (2026-03-29)
+
+
+### Features
+
+* extract reusable streaming module from REPL ([9998294](https://github.com/ziqizhang/agentic-stock-adviser/commit/99982943665fb6eff52d04f90aaf3c8c08d48d84))
+
 # [1.2.0](https://github.com/ziqizhang/agentic-stock-adviser/compare/v1.1.0...v1.2.0) (2026-03-28)
 
 
