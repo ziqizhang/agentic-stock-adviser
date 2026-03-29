@@ -17,7 +17,7 @@ check: lint test typecheck
 
 # Run the API server
 serve:
-	poetry run uvicorn stock_adviser.server:app --host 0.0.0.0 --port 8000 --reload
+	poetry run uvicorn stock_adviser.server:app --host 0.0.0.0 --port 8881 --reload
 
 # Remove generated files
 clean:
