@@ -36,7 +36,8 @@ class ToolStartEvent:
 class ToolResultEvent:
     """A tool has returned its result."""
 
-    pass
+    tool_name: str = ""
+    content: str = ""
 
 
 @dataclass
@@ -81,4 +82,4 @@ def stream_events(messages: list[BaseMessage]) -> Generator[StreamEvent, None, N
                             yield ToolStartEvent(tool_name=tc["name"], status=status)
 
             elif isinstance(chunk, ToolMessage):
-                yield ToolResultEvent()
+                yield ToolResultEvent(tool_name=chunk.name or "", content=chunk.content or "")
