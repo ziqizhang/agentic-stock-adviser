@@ -41,8 +41,23 @@ make check      # lint + test + typecheck — run after every change
 make lint       # pre-commit (ruff format + ruff lint + file checks)
 make test       # unit tests
 make typecheck  # mypy (non-blocking until codebase stabilises)
-make serve      # run FastAPI server (port 8000, auto-reload)
+make serve      # run FastAPI server (port 8881, auto-reload)
 ```
+
+## Frontend
+
+- Stack: React + TypeScript + Vite + Tailwind CSS
+- Location: `frontend/`
+- Dev server: `make frontend-dev` (port 5173, proxies API to backend)
+- E2E tests: `cd frontend && npx playwright test`
+- Key modules:
+  - `store/` — Zustand store (chat messages, stock data, UI state)
+  - `stream/useSSE.ts` — Single SSE connection, dispatches events to store
+  - `stream/api.ts` — POST /chat helper
+  - `chat/ChatPanel.tsx` — Collapsible right panel
+  - `dashboard/Dashboard.tsx` — Stock tabs + empty state
+  - `dashboard/StockTab.tsx` — Sub-tab routing (Chart/Fundamentals/Report)
+  - `panes/` — ChartPane (recharts), FundamentalsPane (table), ReportPane (markdown)
 
 ## Conventions
 
