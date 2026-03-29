@@ -19,12 +19,14 @@ def _handle_search_ticker(data: dict) -> list[SSEEvent]:
 
 
 def _handle_stock_price(data: dict) -> list[SSEEvent]:
+    symbol = data["symbol"]
     return [
+        StockOpened(symbol=symbol, name=symbol),
         ChartUpdate(
-            symbol=data["symbol"],
+            symbol=symbol,
             prices=[data.get("price", 0.0)],
             period="latest",
-        )
+        ),
     ]
 
 

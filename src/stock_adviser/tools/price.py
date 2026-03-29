@@ -5,7 +5,7 @@ from stock_adviser.models import StockPrice, ToolError
 
 
 @tool
-def get_stock_price(symbol: str) -> StockPrice | ToolError:
+def get_stock_price(symbol: str) -> dict:
     """Get the current stock price, daily change, market cap, and 52-week range for a ticker.
 
     Args:
@@ -15,7 +15,7 @@ def get_stock_price(symbol: str) -> StockPrice | ToolError:
         ticker = yf.Ticker(symbol)
         info = ticker.info
         if not info or info.get("regularMarketPrice") is None and info.get("currentPrice") is None:
-            return ToolError(error=f"Ticker '{symbol}' not found or has no market data")
+            return ToolError(error=f"Ticker '{symbol}' not found or has no market data").model_dump()
         return StockPrice(
             symbol=symbol,
             price=info.get("currentPrice") or info.get("regularMarketPrice"),
@@ -25,9 +25,9 @@ def get_stock_price(symbol: str) -> StockPrice | ToolError:
             fifty_two_week_low=info.get("fiftyTwoWeekLow"),
             fifty_day_average=info.get("fiftyDayAverage"),
             two_hundred_day_average=info.get("twoHundredDayAverage"),
-        )
+        ).model_dump()
     except Exception as e:
-        return ToolError(error=f"Failed to fetch price for '{symbol}': {e}")
+        return ToolError(error=f"Failed to fetch price for '{symbol}': {e}").model_dump()
 
 
 get_stock_price.metadata = {"status": "Fetching the latest price..."}

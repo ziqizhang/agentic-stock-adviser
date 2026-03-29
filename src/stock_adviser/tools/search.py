@@ -5,7 +5,7 @@ from stock_adviser.models import TickerMatch, TickerSearchResult, ToolError
 
 
 @tool
-def search_ticker(query: str) -> TickerSearchResult | ToolError:
+def search_ticker(query: str) -> dict:
     """Search for a stock ticker symbol by company name or partial ticker.
 
     Use this when the user mentions a company name instead of a ticker symbol.
@@ -24,9 +24,9 @@ def search_ticker(query: str) -> TickerSearchResult | ToolError:
             for q in results.quotes
             if q.get("symbol")
         ]
-        return TickerSearchResult(query=query, matches=matches)
+        return TickerSearchResult(query=query, matches=matches).model_dump()
     except Exception as e:
-        return ToolError(error=f"Failed to search for '{query}': {e}")
+        return ToolError(error=f"Failed to search for '{query}': {e}").model_dump()
 
 
 search_ticker.metadata = {"status": "Looking up the ticker..."}

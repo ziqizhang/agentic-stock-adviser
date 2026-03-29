@@ -70,7 +70,9 @@ test.describe("Dashboard", () => {
       { timeout: 30000 }
     );
 
-    // A stock tab should appear
-    await expect(page.getByText("AAPL")).toBeVisible({ timeout: 30000 });
+    // A stock tab should appear in the tab bar
+    await expect(
+      page.locator('[class*="rounded-t-lg"]', { hasText: "AAPL" })
+    ).toBeVisible({ timeout: 30000 });
   });
 });

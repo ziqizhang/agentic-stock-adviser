@@ -90,9 +90,11 @@ class TestEventRouter:
             }
         )
         events = route_tool_result("get_stock_price", tool_content)
-        assert len(events) == 1
-        assert isinstance(events[0], ChartUpdate)
+        assert len(events) == 2
+        assert isinstance(events[0], StockOpened)
         assert events[0].symbol == "AAPL"
+        assert isinstance(events[1], ChartUpdate)
+        assert events[1].symbol == "AAPL"
 
     def test_routes_get_fundamentals_to_table_update(self):
         tool_content = json.dumps(
