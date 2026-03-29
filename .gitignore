@@ -39,3 +39,7 @@ node_modules/
 # Data
 *.db
 *.sqlite3
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
