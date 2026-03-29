@@ -2,6 +2,7 @@
 
 import json
 
+from stock_adviser.events.router import route_tool_result
 from stock_adviser.events.types import (
     ChartUpdate,
     ReportUpdate,
@@ -72,3 +73,67 @@ class TestSSEEventSerialisation:
         classes = [Token, ToolStart, ToolResult, StockOpened, ChartUpdate, TableUpdate, ReportUpdate]
         for cls in classes:
             assert issubclass(cls, SSEEvent)
+
+
+class TestEventRouter:
+    def test_routes_get_stock_price_to_chart_update(self):
+        tool_content = json.dumps(
+            {
+                "symbol": "AAPL",
+                "price": 248.80,
+                "change_percent": -1.62,
+                "market_cap": 3800000000000,
+                "fifty_two_week_high": 260.0,
+                "fifty_two_week_low": 164.0,
+                "fifty_day_average": 240.0,
+                "two_hundred_day_average": 220.0,
+            }
+        )
+        events = route_tool_result("get_stock_price", tool_content)
+        assert len(events) == 1
+        assert isinstance(events[0], ChartUpdate)
+        assert events[0].symbol == "AAPL"
+
+    def test_routes_get_fundamentals_to_table_update(self):
+        tool_content = json.dumps(
+            {
+                "symbol": "AAPL",
+                "pe_ratio": 31.5,
+                "forward_pe": 28.0,
+                "eps": 7.91,
+                "revenue_growth": 0.157,
+                "profit_margin": 0.27,
+                "debt_to_equity": 1.5,
+                "return_on_equity": 0.45,
+                "dividend_yield": 0.005,
+            }
+        )
+        events = route_tool_result("get_fundamentals", tool_content)
+        assert len(events) == 1
+        assert isinstance(events[0], TableUpdate)
+        assert events[0].symbol == "AAPL"
+        assert events[0].metrics["pe_ratio"] == 31.5
+
+    def test_routes_search_ticker_to_stock_opened(self):
+        tool_content = json.dumps(
+            {"query": "Apple", "matches": [{"symbol": "AAPL", "name": "Apple Inc.", "exchange": "NMS"}]}
+        )
+        events = route_tool_result("search_ticker", tool_content)
+        assert len(events) == 1
+        assert isinstance(events[0], StockOpened)
+        assert events[0].symbol == "AAPL"
+        assert events[0].name == "Apple Inc."
+
+    def test_routes_search_ticker_no_matches_to_empty(self):
+        tool_content = json.dumps({"query": "xyzxyz", "matches": []})
+        events = route_tool_result("search_ticker", tool_content)
+        assert events == []
+
+    def test_routes_unknown_tool_to_empty(self):
+        events = route_tool_result("unknown_tool", "{}")
+        assert events == []
+
+    def test_routes_tool_error_to_empty(self):
+        tool_content = json.dumps({"error": "Ticker not found"})
+        events = route_tool_result("get_stock_price", tool_content)
+        assert events == []
