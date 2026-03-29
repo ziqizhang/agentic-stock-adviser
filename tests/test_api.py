@@ -1,6 +1,8 @@
 """Tests for FastAPI endpoints."""
 
+import anyio
 from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
 
 from stock_adviser.api.app import create_app
 
@@ -40,3 +42,14 @@ class TestChatEndpoint:
         session = app.state.sessions.get_or_create("test-1")
         assert len(session) >= 1
         assert session[0].content == "Hello"
+
+
+class TestStreamEndpoint:
+    async def test_stream_returns_event_stream_content_type(self):
+        app = create_app()
+        app.state.sessions.get_or_create("test-stream")
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            with anyio.move_on_after(5):
+                async with client.stream("GET", "/stream/test-stream") as response:
+                    assert response.status_code == 200
+                    assert "text/event-stream" in response.headers["content-type"]
