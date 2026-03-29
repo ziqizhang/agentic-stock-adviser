@@ -8,7 +8,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from stock_adviser.api.session import SessionStore
 from stock_adviser.events.router import route_tool_result
-from stock_adviser.events.types import Token, ToolResult, ToolStart
+from stock_adviser.events.types import Done, Token, ToolResult, ToolStart
 from stock_adviser.streaming import (
     StateEvent,
     TokenEvent,
@@ -44,7 +44,7 @@ async def _event_generator(sessions: SessionStore, session_id: str, request: Req
             def _stream():
                 return list(stream_events(messages))
 
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             events = await loop.run_in_executor(None, _stream)
 
             for event in events:
@@ -63,6 +63,8 @@ async def _event_generator(sessions: SessionStore, session_id: str, request: Req
                 elif isinstance(event, StateEvent):
                     sessions.update(session_id, event.messages)
                     last_count = len(event.messages)
+
+            yield Done().to_sse()
 
         await asyncio.sleep(0.1)
 

@@ -76,6 +76,14 @@ export function useSSE(sessionId: string) {
         case "report_update":
           updateReport(data.symbol as string, data.markdown as string);
           break;
+
+        case "done":
+          if (wasTyping) {
+            finishAssistantMessage();
+            wasTyping = false;
+          }
+          setAgentTyping(false);
+          break;
       }
     };
 

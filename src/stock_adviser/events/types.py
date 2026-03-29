@@ -76,3 +76,8 @@ class ReportUpdate(SSEEvent):
     symbol: str = ""
     markdown: str = ""
     event_type: str = "report_update"
+
+
+@dataclass
+class Done(SSEEvent):
+    event_type: str = "done"
