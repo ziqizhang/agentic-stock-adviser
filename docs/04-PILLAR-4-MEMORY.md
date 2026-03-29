@@ -62,10 +62,47 @@ From the agent-memory_aware course and Agentic Patterns Ch. 8:
 
 ---
 
+## Backlog: Dashboard Session & Streaming Architecture
+
+The current dashboard (built during Pillar 1-2) uses temporary hacks that must be
+replaced here. They work for local dev but are not standard practice.
+
+### What needs replacing
+
+| Current (hack) | Target (standard) | Why |
+|---|---|---|
+| **In-memory `SessionStore`** — a Python dict holding conversation messages per session | **LangGraph checkpointer** (`SqliteSaver` or `PostgresSaver`) | Data lost on restart, no time-travel, no resume, single-process only |
+| **Polling loop** — SSE stream checks SessionStore every 0.1s for new messages | **Streaming POST** or **`asyncio.Queue`** for event-driven notification | Polling wastes CPU (1000 reads/sec with 100 connections), adds 0-100ms latency, not how production systems work |
+| **POST /chat + GET /stream** — two separate endpoints coordinated via SessionStore | **Single streaming POST** (standard pattern used by OpenAI, Anthropic) or event-driven queue between endpoints | Eliminates the coordination layer entirely; agent runs inline with the response stream |
+
+### Why these hacks exist
+
+When we built the dashboard, we didn't yet have a LangGraph checkpointer (that's this
+pillar). The SessionStore was the simplest way to share state between the POST and SSE
+endpoints. The polling loop was the simplest way to detect new messages without
+introducing async coordination primitives.
+
+### How to fix (as part of Step 1 below)
+
+When adding the checkpointer, also:
+1. Replace `SessionStore` with the checkpointer's native thread/session persistence
+2. Replace the polling SSE loop with either:
+   - A **streaming POST** that runs the agent inline and returns an SSE response directly (simplest, standard pattern), or
+   - An **`asyncio.Queue`** between POST and GET if we still need the persistent SSE connection for server-initiated events
+3. The `events/router.py` and `events/types.py` layers stay the same — only the transport changes
+
+### Reference
+
+See `docs/learning/sse-architecture.md` for a full explanation of the SSE architecture,
+the bug we found (two consumers on one queue), and the Approach A vs B trade-offs.
+
+---
+
 ## Implementation Steps
 
 ### Step 1: Add Checkpointer for Conversation Persistence
 Use PostgresSaver or SQLiteSaver for thread-based persistence.
+**Also:** Replace the in-memory SessionStore and polling loop (see backlog above).
 
 ### Step 2: Build the User Profile Store
 Store and retrieve user preferences across sessions.
