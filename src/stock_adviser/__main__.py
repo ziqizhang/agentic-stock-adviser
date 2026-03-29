@@ -1,16 +1,12 @@
-"""Run the stock adviser agent in a conversational loop with streaming output."""
+"""Run the stock adviser agent in a conversational REPL with streaming output."""
 
-from langchain_core.messages import AIMessageChunk, HumanMessage, ToolMessage
+from langchain_core.messages import BaseMessage, HumanMessage
 
-from stock_adviser.graph import graph, tools
+from stock_adviser.streaming import StateEvent, TokenEvent, ToolResultEvent, ToolStartEvent, stream_events
 
 # ANSI colour codes for terminal output
 DIM = "\033[2m"
 RESET = "\033[0m"
-DEFAULT_TOOL_STATUS = "Working on it..."
-
-# Build status lookup from tool metadata so each tool owns its own message
-TOOL_STATUS: dict[str, str] = {t.name: t.metadata.get("status", DEFAULT_TOOL_STATUS) for t in tools if t.metadata}
 
 
 def get_greeting_message() -> HumanMessage:
@@ -22,51 +18,30 @@ def get_greeting_message() -> HumanMessage:
     return HumanMessage(content="Greet the user and briefly explain what you can help with.")
 
 
-def stream_response(messages: list) -> list:
-    """Stream a graph response, printing tokens as they arrive.
+def stream_to_terminal(messages: list[BaseMessage]) -> list[BaseMessage]:
+    """Consume stream events and render them to the terminal.
 
-    Uses dual stream mode: 'messages' for real-time token display,
-    'values' to capture the final state for conversation history.
-
-    Returns the updated full message list.
+    Returns the updated message list for conversation history.
     """
     streaming_started = False
     final_messages = messages  # fallback
 
-    for event in graph.stream(
-        {"messages": messages},
-        stream_mode=["messages", "values"],
-    ):
-        # 'values' events give us the full state snapshot
-        if isinstance(event, tuple) and event[0] == "values":
-            state_snapshot = event[1]
-            if "messages" in state_snapshot:
-                final_messages = state_snapshot["messages"]
-            continue
+    for event in stream_events(messages):
+        if isinstance(event, TokenEvent):
+            if not streaming_started:
+                print("\nAssistant: ", end="", flush=True)
+                streaming_started = True
+            print(event.content, end="", flush=True)
 
-        # 'messages' events are (stream_mode_key, (chunk, metadata))
-        if isinstance(event, tuple) and event[0] == "messages":
-            chunk, metadata = event[1]
+        elif isinstance(event, ToolStartEvent):
+            print(f"\n{DIM}  ↳ {event.status}{RESET}", flush=True)
+            streaming_started = False  # Reset so next text gets "Assistant:" prefix
 
-            # AI token chunks — print as they arrive
-            if isinstance(chunk, AIMessageChunk):
-                if chunk.content:
-                    if not streaming_started:
-                        print("\nAssistant: ", end="", flush=True)
-                        streaming_started = True
-                    print(chunk.content, end="", flush=True)
+        elif isinstance(event, ToolResultEvent):
+            print(f"{DIM}  ✓ Done{RESET}", flush=True)
 
-                # Tool call chunks — show which tool is being invoked
-                if chunk.tool_call_chunks:
-                    for tc in chunk.tool_call_chunks:
-                        if tc.get("name"):
-                            status = TOOL_STATUS.get(tc["name"], DEFAULT_TOOL_STATUS)
-                            print(f"\n{DIM}  ↳ {status}{RESET}", flush=True)
-                            streaming_started = False  # Reset so next text gets "Assistant:" prefix
-
-            # Tool result messages
-            elif isinstance(chunk, ToolMessage):
-                print(f"{DIM}  ✓ Done{RESET}", flush=True)
+        elif isinstance(event, StateEvent):
+            final_messages = event.messages
 
     if streaming_started:
         print()  # Final newline after streamed content
@@ -76,7 +51,7 @@ def stream_response(messages: list) -> list:
 
 def main() -> None:
     # Generate greeting with streaming
-    messages = stream_response([get_greeting_message()])
+    messages = stream_to_terminal([get_greeting_message()])
 
     while True:
         try:
@@ -88,7 +63,7 @@ def main() -> None:
             break
 
         messages.append(HumanMessage(content=user_input))
-        messages = stream_response(messages)
+        messages = stream_to_terminal(messages)
 
 
 if __name__ == "__main__":
