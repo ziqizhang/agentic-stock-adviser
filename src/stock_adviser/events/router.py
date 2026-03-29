@@ -32,7 +32,7 @@ def _handle_stock_price(data: dict) -> list[SSEEvent]:
 
 def _handle_fundamentals(data: dict) -> list[SSEEvent]:
     symbol = data.pop("symbol")
-    return [TableUpdate(symbol=symbol, metrics=data)]
+    return [StockOpened(symbol=symbol, name=symbol), TableUpdate(symbol=symbol, metrics=data)]
 
 
 _HANDLERS: dict[str, Callable[[dict], list[SSEEvent]]] = {
