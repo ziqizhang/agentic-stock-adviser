@@ -1,4 +1,4 @@
-.PHONY: lint test typecheck check clean
+.PHONY: lint test typecheck check serve clean
 
 # Format and lint (via pre-commit)
 lint:
@@ -14,6 +14,10 @@ typecheck:
 
 # Run all fast checks — the single command after every change
 check: lint test typecheck
+
+# Run the API server
+serve:
+	poetry run uvicorn stock_adviser.server:app --host 0.0.0.0 --port 8000 --reload
 
 # Remove generated files
 clean:
