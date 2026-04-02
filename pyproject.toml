@@ -21,6 +21,13 @@ pydantic = "^2.0"
 fastapi = "^0.135.2"
 uvicorn = "^0.42.0"
 sse-starlette = "^3.3.4"
+langchain-anthropic = {version = "^0.3", optional = true}
+langchain-google-genai = {version = "^0.5", optional = true}
+
+[tool.poetry.extras]
+anthropic = ["langchain-anthropic"]
+google = ["langchain-google-genai"]
+all-providers = ["langchain-anthropic", "langchain-google-genai"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3"
