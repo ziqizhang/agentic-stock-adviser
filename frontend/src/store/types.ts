@@ -39,4 +39,10 @@ export interface AppState {
   // Chat panel
   chatOpen: boolean;
   toggleChat: () => void;
+
+  // Settings
+  llmConfigured: boolean;
+  settingsOpen: boolean;
+  setLlmConfigured: (configured: boolean) => void;
+  setSettingsOpen: (open: boolean) => void;
 }

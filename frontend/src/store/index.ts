@@ -78,4 +78,10 @@ export const useStore = create<AppState>((set) => ({
   // Chat panel
   chatOpen: true,
   toggleChat: () => set((s) => ({ chatOpen: !s.chatOpen })),
+
+  // Settings
+  llmConfigured: false,
+  settingsOpen: false,
+  setLlmConfigured: (configured) => set({ llmConfigured: configured }),
+  setSettingsOpen: (open) => set({ settingsOpen: open }),
 }));
