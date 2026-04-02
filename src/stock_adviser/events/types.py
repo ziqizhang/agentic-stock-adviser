@@ -81,3 +81,9 @@ class ReportUpdate(SSEEvent):
 @dataclass
 class Done(SSEEvent):
     event_type: str = "done"
+
+
+@dataclass
+class Error(SSEEvent):
+    message: str = ""
+    event_type: str = "error"

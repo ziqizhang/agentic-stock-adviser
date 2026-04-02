@@ -77,6 +77,10 @@ export function useSSE(sessionId: string) {
           updateReport(data.symbol as string, data.markdown as string);
           break;
 
+        case "error":
+          addStatusMessage(`Error: ${data.message as string}`);
+          break;
+
         case "done":
           if (wasTyping) {
             finishAssistantMessage();
