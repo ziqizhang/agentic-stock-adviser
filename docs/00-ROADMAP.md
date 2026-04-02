@@ -165,7 +165,7 @@ Phase 3: "Production Grade" (Pillars 6-8)
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
 | **Orchestration** | LangGraph | You already know it deeply. Cyclical stateful graphs, native multi-agent support. |
-| **LLM** | OpenAI via langchain-openai | Consistent with your ai-genai-cam setup. Dual-tier models (GPT-4o + GPT-4o-mini). |
+| **LLM** | Multi-provider (OpenAI, Azure OpenAI, Anthropic, Google Gemini) via langchain-openai / langchain-anthropic / langchain-google-genai | Runtime-configurable through web UI. Provider packages are optional extras (`poetry install -E all-providers`). |
 | **Tracing/Eval** | LangSmith (+ optional LangFuse) | LangSmith for evaluation datasets/experiments. LangFuse as optional secondary for cost tracking (you already know it). |
 | **Data layer** | yfinance + custom tools | Proven in stock-selector, no API keys needed to start. |
 | **Memory store** | LangGraph checkpointer (PostgreSQL or SQLite) + vector store | Native conversation persistence + semantic retrieval for long-term memory. |
