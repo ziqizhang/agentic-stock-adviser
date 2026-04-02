@@ -39,7 +39,7 @@ class TestChatEndpoint:
         app = create_app()
         client = TestClient(app)
         client.post("/chat", json={"session_id": "test-1", "message": "Hello"})
-        session = app.state.sessions.get_or_create("test-1")
+        session = app.state.sessions.get_messages("test-1")
         assert len(session) >= 1
         assert session[0].content == "Hello"
 
@@ -47,7 +47,7 @@ class TestChatEndpoint:
 class TestStreamEndpoint:
     async def test_stream_returns_event_stream_content_type(self):
         app = create_app()
-        app.state.sessions.get_or_create("test-stream")
+        app.state.sessions.get_messages("test-stream")
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             with anyio.move_on_after(5):
                 async with client.stream("GET", "/stream/test-stream") as response:

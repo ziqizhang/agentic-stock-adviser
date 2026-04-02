@@ -87,6 +87,8 @@ class TestEventRouter:
                 "fifty_two_week_low": 164.0,
                 "fifty_day_average": 240.0,
                 "two_hundred_day_average": 220.0,
+                "history_prices": [240.0, 245.0, 248.8],
+                "history_period": "1mo",
             }
         )
         events = route_tool_result("get_stock_price", tool_content)
@@ -95,6 +97,8 @@ class TestEventRouter:
         assert events[0].symbol == "AAPL"
         assert isinstance(events[1], ChartUpdate)
         assert events[1].symbol == "AAPL"
+        assert events[1].prices == [240.0, 245.0, 248.8]
+        assert events[1].period == "1mo"
 
     def test_routes_get_fundamentals_to_table_update(self):
         tool_content = json.dumps(

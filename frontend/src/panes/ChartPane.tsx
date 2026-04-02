@@ -24,34 +24,36 @@ export function ChartPane({ prices, period }: Props) {
   const data = prices.map((price, i) => ({ index: i, price }));
 
   return (
-    <div className="h-full p-4">
+    <div className="p-4">
       <p className="text-xs text-gray-500 mb-2">Period: {period}</p>
-      <ResponsiveContainer width="100%" height="90%">
-        <LineChart data={data}>
-          <XAxis dataKey="index" hide />
-          <YAxis
-            domain={["auto", "auto"]}
-            tick={{ fill: "#6b7280", fontSize: 11 }}
-            width={60}
-          />
-          <Tooltip
-            contentStyle={{
-              background: "#1f2937",
-              border: "1px solid #374151",
-              borderRadius: 8,
-              color: "#e5e7eb",
-              fontSize: 12,
-            }}
-          />
-          <Line
-            type="monotone"
-            dataKey="price"
-            stroke="#2dd4bf"
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div style={{ width: "100%", height: 400 }}>
+        <ResponsiveContainer>
+          <LineChart data={data}>
+            <XAxis dataKey="index" hide />
+            <YAxis
+              domain={["auto", "auto"]}
+              tick={{ fill: "#6b7280", fontSize: 11 }}
+              width={60}
+            />
+            <Tooltip
+              contentStyle={{
+                background: "#1f2937",
+                border: "1px solid #374151",
+                borderRadius: 8,
+                color: "#e5e7eb",
+                fontSize: 12,
+              }}
+            />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke="#2dd4bf"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

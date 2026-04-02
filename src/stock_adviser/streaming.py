@@ -1,10 +1,10 @@
 """Stream event classification for the agent graph.
 
-Iterates the LangGraph dual stream (messages + values) and yields typed events.
+Iterates the LangGraph async stream (messages + values) and yields typed events.
 Consumers (REPL, FastAPI, WebSocket) decide how to render each event type.
 """
 
-from collections.abc import Generator
+from collections.abc import AsyncGenerator
 from dataclasses import dataclass
 
 from langchain_core.messages import AIMessageChunk, BaseMessage, ToolMessage
@@ -50,13 +50,13 @@ class StateEvent:
 StreamEvent = TokenEvent | ToolStartEvent | ToolResultEvent | StateEvent
 
 
-def stream_events(messages: list[BaseMessage]) -> Generator[StreamEvent, None, None]:
-    """Iterate the graph stream and yield classified events.
+async def stream_events(messages: list[BaseMessage]) -> AsyncGenerator[StreamEvent, None]:
+    """Iterate the graph async stream and yield classified events.
 
     Uses dual stream mode: 'messages' for real-time chunks,
     'values' to capture state snapshots for conversation history.
     """
-    for event in graph.stream(
+    async for event in graph.astream(
         {"messages": messages},
         stream_mode=["messages", "values"],
     ):

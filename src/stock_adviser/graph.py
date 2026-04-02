@@ -14,13 +14,13 @@ from stock_adviser.tools.search import search_ticker
 tools = [search_ticker, get_stock_price, get_fundamentals]
 
 
-def agent(state: AgentState) -> dict:
+async def agent(state: AgentState) -> dict:
     """Call the LLM with tools bound. Prepend system prompt if this is the first turn."""
     llm = get_llm().bind_tools(tools)
     messages = state["messages"]
     if not any(isinstance(m, SystemMessage) for m in messages):
         messages = [SystemMessage(content=SYSTEM_PROMPT), *messages]
-    response = llm.invoke(messages)
+    response = await llm.ainvoke(messages)
     return {"messages": [response]}
 
 

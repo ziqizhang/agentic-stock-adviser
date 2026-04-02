@@ -1,0 +1,21 @@
+In /home/zz/Work/github_personal/stock-selector I wrote a repo that uses LLM to analyse a stock and give buy/hold/sell
+ratings. I would like to rebuild it based on the agentic architecture, in this folder. I want to use this as a learning
+approach, to use all important methodology, practice, and protocols for developing deep agents. Think about it, usually when I
+ask an AI for stock advice, I open Claude/ChatGPT, I have turns of conversation and will ask things like, recent news driving
+the dip or rise, the macro economic environment, the fundamentals to decide if the value of the stock is fair, insider
+buys/sells recently, the wider index and sector performance etc... it can depends on many many factors, and really you'd need
+different speciality to focus on one area (like a subagent). And for that area, you might even need specific tools, MCP servers
+ (for getting data). Generic tools may also be useful like those to create charts, tables, for visualisation. The point is, you
+ cant predict a certain flow of conversation, you'd need to respond to the user's request cleverly, plan, act, and orchestrate.
+ That's why I want to build it as a full, agentic system. I have never done this before, that's why I said I want to use this
+as a way for learning. I have done some online courses, and I know you have expert knowledge of this area tool. In this folder
+/home/zz/Work/github_personal/learning, I cloned repos and content that cover different areas of building deep agents, such as
+tracing and evaluation using langsmith, agent long term memory (which we should do as well, to remember user conversation and
+sessions), fundamental courses on the deep agent architecture and practice, etc.  I want you to read these resources, do your
+web search and reading, as well as using the /kb-agentic-patterns knowledge base, to collect necessary knowledge first. Then,
+act as an experienced, expert deep agentic system engineer, advise me how to start. We are starting from scratch, so feel free
+to create as many documentation as you need. I magine you might need to identify big areas to go through with me, and then
+drill into each area further. We don't have to complete all details in one session, the important thing is scaffolding,
+defining directions, identify important patterns/methodologies/practices I should use, then follow through each of them in
+depth later. Think how you'd guide a phd student to write up their thesis, from finding the broad direction, to narrowing
+scope, to outline, to chaper writerup, putting things together, etc...

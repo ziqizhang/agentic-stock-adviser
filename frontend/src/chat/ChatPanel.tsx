@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { useStore } from "../store";
 import { sendChatMessage } from "../stream/api";
 
@@ -45,7 +46,7 @@ export function ChatPanel() {
   }
 
   return (
-    <div className="w-80 border-l border-gray-800 flex flex-col bg-gray-900">
+    <div className="flex flex-col bg-gray-900 h-full">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
         <span className="text-teal-400 font-medium text-sm">Agent</span>
@@ -72,19 +73,21 @@ export function ChatPanel() {
               </div>
             )}
             {msg.role === "assistant" && (
-              <div className="bg-gray-800/50 rounded-lg px-3 py-2 text-sm text-gray-300">
-                {msg.content}
+              <div className="bg-gray-800/50 rounded-lg px-3 py-2 text-sm text-gray-300 prose prose-invert prose-sm max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5">
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
               </div>
             )}
             {msg.role === "status" && (
-              <div className="text-xs text-gray-500 italic px-1">
+              <div className="flex items-center gap-2 text-xs text-teal-400/70 italic px-1 py-1">
+                <span className="inline-block w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" />
                 {msg.content}
               </div>
             )}
           </div>
         ))}
         {isAgentTyping && (
-          <div className="text-xs text-teal-400 animate-pulse px-1">
+          <div className="flex items-center gap-2 text-xs text-teal-400 animate-pulse px-1">
+            <span className="inline-block w-1.5 h-1.5 bg-teal-400 rounded-full" />
             Thinking...
           </div>
         )}

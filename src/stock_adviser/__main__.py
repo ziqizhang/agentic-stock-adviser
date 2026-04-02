@@ -1,5 +1,7 @@
 """Run the stock adviser agent in a conversational REPL with streaming output."""
 
+import asyncio
+
 from langchain_core.messages import BaseMessage, HumanMessage
 
 from stock_adviser.streaming import StateEvent, TokenEvent, ToolResultEvent, ToolStartEvent, stream_events
@@ -18,7 +20,7 @@ def get_greeting_message() -> HumanMessage:
     return HumanMessage(content="Greet the user and briefly explain what you can help with.")
 
 
-def stream_to_terminal(messages: list[BaseMessage]) -> list[BaseMessage]:
+async def stream_to_terminal(messages: list[BaseMessage]) -> list[BaseMessage]:
     """Consume stream events and render them to the terminal.
 
     Returns the updated message list for conversation history.
@@ -26,7 +28,7 @@ def stream_to_terminal(messages: list[BaseMessage]) -> list[BaseMessage]:
     streaming_started = False
     final_messages = messages  # fallback
 
-    for event in stream_events(messages):
+    async for event in stream_events(messages):
         if isinstance(event, TokenEvent):
             if not streaming_started:
                 print("\nAssistant: ", end="", flush=True)
@@ -49,9 +51,9 @@ def stream_to_terminal(messages: list[BaseMessage]) -> list[BaseMessage]:
     return final_messages
 
 
-def main() -> None:
+async def amain() -> None:
     # Generate greeting with streaming
-    messages = stream_to_terminal([get_greeting_message()])
+    messages = await stream_to_terminal([get_greeting_message()])
 
     while True:
         try:
@@ -63,7 +65,11 @@ def main() -> None:
             break
 
         messages.append(HumanMessage(content=user_input))
-        messages = stream_to_terminal(messages)
+        messages = await stream_to_terminal(messages)
+
+
+def main() -> None:
+    asyncio.run(amain())
 
 
 if __name__ == "__main__":

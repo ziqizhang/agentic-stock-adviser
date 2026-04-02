@@ -22,11 +22,13 @@ def _handle_search_ticker(data: dict) -> list[SSEEvent]:
 
 
 def _handle_stock_price(data: dict) -> list[SSEEvent]:
+    prices = data.get("history_prices") or [data.get("price", 0.0)]
+    period = data.get("history_period", "latest")
     return [
         ChartUpdate(
             symbol=data["symbol"],
-            prices=[data.get("price", 0.0)],
-            period="latest",
+            prices=prices,
+            period=period,
         ),
     ]
 

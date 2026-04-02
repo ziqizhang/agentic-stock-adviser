@@ -29,4 +29,5 @@ class ChatRequest(BaseModel):
 async def chat(body: ChatRequest, request: Request) -> dict:
     sessions: SessionStore = request.app.state.sessions
     sessions.append(body.session_id, HumanMessage(content=body.message))
+    sessions.notify(body.session_id)
     return {"status": "accepted"}

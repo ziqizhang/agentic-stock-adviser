@@ -1,0 +1,84 @@
+<h2>Empty State: Quick Picks</h2>
+<p class="subtitle">What the user sees when they first open the dashboard (no stocks researched yet). The chat panel is always visible on the right.</p>
+
+<div class="cards">
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;border-radius:8px;padding:16px;font-family:monospace;font-size:11px;color:#8892b0;line-height:1.6">
+        <div style="display:flex;height:360px;gap:8px">
+          <!-- Main area -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px">
+            <!-- Header -->
+            <div style="text-align:center">
+              <div style="color:#64ffda;font-size:16px;margin-bottom:8px">Stock Adviser</div>
+              <div style="color:#556;font-size:11px">Ask about any stock, or pick one to get started</div>
+            </div>
+            <!-- Quick pick cards -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:80%">
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">AAPL</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">Apple Inc.</div>
+                <div style="color:#4ade80;font-size:10px;margin-top:6px">+1.2%</div>
+              </div>
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">MSFT</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">Microsoft Corp.</div>
+                <div style="color:#f87171;font-size:10px;margin-top:6px">-0.8%</div>
+              </div>
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">NVDA</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">NVIDIA Corp.</div>
+                <div style="color:#4ade80;font-size:10px;margin-top:6px">+3.4%</div>
+              </div>
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">GOOGL</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">Alphabet Inc.</div>
+                <div style="color:#4ade80;font-size:10px;margin-top:6px">+0.5%</div>
+              </div>
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">TSLA</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">Tesla Inc.</div>
+                <div style="color:#f87171;font-size:10px;margin-top:6px">-2.1%</div>
+              </div>
+              <div style="background:#1e1e36;border:1px solid #2d2d4a;border-radius:8px;padding:12px;text-align:center;cursor:pointer">
+                <div style="color:#ccd;font-size:12px;font-weight:bold">AMZN</div>
+                <div style="color:#556;font-size:9px;margin-top:4px">Amazon.com</div>
+                <div style="color:#4ade80;font-size:10px;margin-top:6px">+1.8%</div>
+              </div>
+            </div>
+            <!-- Note about complexity -->
+            <div style="background:#2d2d4a;border-radius:6px;padding:10px 16px;max-width:80%;text-align:center">
+              <div style="color:#f87171;font-size:9px">Note: Clicking a card would need to inject a message into the chat (e.g. "Research AAPL") — this requires bidirectional state sync between dashboard and chat.</div>
+            </div>
+          </div>
+          <!-- Chat panel -->
+          <div style="width:220px;background:#1e1e36;border-radius:6px;padding:10px;display:flex;flex-direction:column">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="color:#64ffda;font-size:10px">Agent</span>
+              <span style="color:#556;font-size:10px">« Hide</span>
+            </div>
+            <div style="flex:1;font-size:9px;color:#8892b0;overflow:hidden">
+              <div style="background:#2d2d4a;padding:6px;border-radius:4px;margin-bottom:4px">Welcome! I can help you research stocks. Ask me about any company or pick one from the dashboard.</div>
+            </div>
+            <div style="background:#2d2d4a;border-radius:4px;padding:6px;font-size:9px;color:#556;margin-top:4px">Ask something...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C: Quick Picks</h3>
+      <p>Trending/suggested stocks as clickable cards. Looks nice but requires wiring click → chat message injection (bidirectional state sync). More work for a landing page that users only see once.</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:24px;padding:16px;background:#1e1e36;border-radius:8px;border-left:3px solid #f87171">
+  <h3 style="color:#f87171;margin:0 0 8px 0;font-size:14px">Complexity Warning</h3>
+  <p style="color:#8892b0;margin:0;font-size:13px">Quick picks require the dashboard to <strong>inject messages into the chat</strong> when clicked (e.g., "Research AAPL for me"). This means:</p>
+  <ul style="color:#8892b0;font-size:12px;margin:8px 0 0 0;padding-left:20px">
+    <li>Dashboard needs write access to chat state (not just read)</li>
+    <li>Chat needs to trigger dashboard updates when agent responds</li>
+    <li>Two-way binding between UI layers — biggest source of bugs in chat+dashboard apps</li>
+  </ul>
+  <p style="color:#64ffda;margin:12px 0 0 0;font-size:12px"><strong>Recommendation:</strong> Start with Option A (prompt-first) — the chat panel IS the entry point. Add quick picks later as a progressive enhancement once the state management is solid.</p>
+</div>
